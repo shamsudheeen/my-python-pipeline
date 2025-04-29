@@ -3,5 +3,5 @@ if random.choice([True,False]):
     print("Success")
 
 else:
-    print("Success")
-    #print("Error: Something went wrong..")
+    #print("fSuccess")
+    print("Error: Something went wrong..")
