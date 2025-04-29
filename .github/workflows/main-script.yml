@@ -1,0 +1,38 @@
+name: Python CI/CD Pipeline
+
+on:
+  push:
+    paths:
+      - main.py  # Trigger the pipeline only if main.py is pushed
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Run main.py and capture output
+      id: run_main
+      run: |
+        output=$(python main.py)
+        echo "Main.py output: $output"
+        if [[ "$output" == *"success"* ]]; then
+          echo "result=success" >> $GITHUB_OUTPUT
+        else
+          echo "result=failure" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Run success.py if success
+      if: steps.run_main.outputs.result == 'success'
+      run: python success.py
+
+    - name: Run failure.py if failure
+      if: steps.run_main.outputs.result == 'failure'
+      run: python failure.py
