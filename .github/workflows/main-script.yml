@@ -35,4 +35,4 @@ jobs:
 
     - name: Run failure.py if failure
       if: steps.run_main.outputs.result == 'failure'
-      run: python failure.py
+      run: python failiure.py
